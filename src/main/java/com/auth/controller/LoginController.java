@@ -40,14 +40,17 @@ public class LoginController {
 
 	// --- Login a User
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@CrossOrigin
 	public ResponseEntity<User> loginUser(@RequestBody User user) { // header,body(json),HTTP.status //,
 																	// UriComponentsBuilder ucBuilder, @RequestBody User
 																	// user
+		System.out.println("Login 1111");
 		try {
 			User myUser = userService.getUser(user.getUserId());
 			
 			String hashPassword = SHA256.getInstance().encodeSHA256(myUser.getSalt() + user.getPassword());
 			if(hashPassword.equals(myUser.getPassword())) {
+				System.out.println("Login 2222");
 				return new ResponseEntity<User>(myUser, HttpStatus.OK);
 			}else {
 				return new ResponseEntity<User>(HttpStatus.FORBIDDEN);

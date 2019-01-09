@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,6 +24,7 @@ public class AdminController {
 	private UserService userService;
 	
 	@RequestMapping(value="/getAllUsers", method = RequestMethod.GET)
+	@CrossOrigin
 	public ResponseEntity<List<User>> getAllUsers() {
 		System.out.println("getAllUsers");
 
@@ -49,6 +51,7 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
+	@CrossOrigin
 	public ResponseEntity<Void> removeUser(@PathVariable(value = "userId") String userId) {
 //		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //		String username = authentication.getName();

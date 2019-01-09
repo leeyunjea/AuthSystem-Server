@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,7 +25,10 @@ public class RegisterController {
 	private UserService userService;
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	@CrossOrigin
 	public ResponseEntity<Void> insertUser(@RequestBody User user) throws NoSuchAlgorithmException {
+		
+		System.out.println("Register");
 		
 		SecureRandom secRan = SecureRandom.getInstance("SHA1PRNG");
 		//랜던 문자 길이
@@ -55,6 +59,7 @@ public class RegisterController {
 		user.setTimestamp(new Timestamp(System.currentTimeMillis()));
 
 		if (userService.insertUser(user)) {
+			System.out.println("Register OK");
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} else {
 			return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
