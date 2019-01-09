@@ -35,6 +35,23 @@ public class LoginController {
 //		}
 //		return new ResponseEntity<User>(user, HttpStatus.OK);
 //	}
+	
+	// --- Test
+		@RequestMapping(value = "/test", method = RequestMethod.GET)
+		public ResponseEntity<User> test() { // header,body(json),HTTP.status //,
+																		// UriComponentsBuilder ucBuilder, @RequestBody User
+																		// user
+
+			System.out.println("////////// Test");
+
+			try {
+				return new ResponseEntity<User>(HttpStatus.OK);
+			} catch (Exception e) {
+				return new ResponseEntity<User>(HttpStatus.FORBIDDEN);
+			}
+
+
+		}
 
 	// --- Login a User
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -42,8 +59,7 @@ public class LoginController {
 																	// UriComponentsBuilder ucBuilder, @RequestBody User
 																	// user
 
-		System.out.println("////////// " + user.getUserId());
-
+		System.out.println("Login");
 		try {
 			User myUser = userService.getUser(user);
 			return new ResponseEntity<User>(myUser, HttpStatus.OK);
@@ -51,23 +67,6 @@ public class LoginController {
 			return new ResponseEntity<User>(HttpStatus.FORBIDDEN);
 		}
 
-//		HttpHeaders headers = new HttpHeaders();
-//		headers.setLocation(ucBuilder.path("/api/login/{id}").buildAndExpand(user.getId()).toUri());
-
 	}
 
-	// --- test
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public ResponseEntity<Void> test() { // header,body(json),HTTP.status //, UriComponentsBuilder ucBuilder,
-											// @RequestBody User user
-
-		System.out.println("////////// ");
-
-		try {
-			return new ResponseEntity<Void>(HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
-		}
-
-	}
 }

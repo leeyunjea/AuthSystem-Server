@@ -1,5 +1,7 @@
 package com.auth.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,5 +16,17 @@ public class UserService {
 	
 	public  User getUser(User user) {
 		return userDao.getUser(user);
+	}
+
+	public boolean insertUser(User user) {
+		return userDao.insertUser(user);
+	}
+
+	public List<User> getAllUsers() {
+		return userDao.getAllUsers();
+	}
+
+	public boolean deleteUser(String userId) {
+		return userDao.deleteUser(userId);
 	}
 }
