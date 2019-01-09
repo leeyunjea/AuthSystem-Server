@@ -13,9 +13,13 @@ public class UserService {
 
 	@Autowired
 	private UserDao userDao;
-	
-	public  User getUser(User user) {
+
+	public User getUser(User user) {
 		return userDao.getUser(user);
+	}
+
+	public User getUser(String userId) {
+		return userDao.getUser(userId);
 	}
 
 	public boolean insertUser(User user) {
@@ -29,4 +33,5 @@ public class UserService {
 	public boolean deleteUser(String userId) {
 		return userDao.deleteUser(userId);
 	}
+
 }

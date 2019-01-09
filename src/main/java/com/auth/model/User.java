@@ -1,12 +1,13 @@
 package com.auth.model;
 
 
-public class User {
+public class User extends TimeStampClass{
 
 	private String userId;
 	private String name;
 	private String password;
 	private String email;
+	private String salt;
 	
 	
 	public String getUserId() {
@@ -33,7 +34,12 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+	public String getSalt() {
+		return salt;
+	}
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
 	
 	
 	

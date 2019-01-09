@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.auth.model.User;
+import com.auth.service.SHA256;
 import com.auth.service.UserService;
 
 @RestController
@@ -36,33 +37,23 @@ public class LoginController {
 //		return new ResponseEntity<User>(user, HttpStatus.OK);
 //	}
 	
-	// --- Test
-		@RequestMapping(value = "/test", method = RequestMethod.GET)
-		public ResponseEntity<User> test() { // header,body(json),HTTP.status //,
-																		// UriComponentsBuilder ucBuilder, @RequestBody User
-																		// user
-
-			System.out.println("////////// Test");
-
-			try {
-				return new ResponseEntity<User>(HttpStatus.OK);
-			} catch (Exception e) {
-				return new ResponseEntity<User>(HttpStatus.FORBIDDEN);
-			}
-
-
-		}
 
 	// --- Login a User
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseEntity<User> loginUser(@RequestBody User user) { // header,body(json),HTTP.status //,
 																	// UriComponentsBuilder ucBuilder, @RequestBody User
 																	// user
-
-		System.out.println("Login");
 		try {
-			User myUser = userService.getUser(user);
-			return new ResponseEntity<User>(myUser, HttpStatus.OK);
+			User myUser = userService.getUser(user.getUserId());
+			
+			String hashPassword = SHA256.getInstance().encodeSHA256(myUser.getSalt() + user.getPassword());
+			if(hashPassword.equals(myUser.getPassword())) {
+				return new ResponseEntity<User>(myUser, HttpStatus.OK);
+			}else {
+				return new ResponseEntity<User>(HttpStatus.FORBIDDEN);
+			}
+			
+			
 		} catch (Exception e) {
 			return new ResponseEntity<User>(HttpStatus.FORBIDDEN);
 		}
