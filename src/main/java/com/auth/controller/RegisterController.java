@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.auth.model.User;
-import com.auth.service.SHA256;
 import com.auth.service.UserService;
+import com.auth.util.SHA256;
 
 @RestController
 @RequestMapping("/api")
