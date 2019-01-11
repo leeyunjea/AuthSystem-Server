@@ -56,7 +56,13 @@ public class RegisterController {
 		
 		user.setSalt(salt);
 		user.setPassword(hashPassword);
-		//user.setReg_date(new Timestamp(System.currentTimeMillis()));
+		if(user.getUserId().equals("admin")) {
+			user.setRole("admin_role");
+			user.setStatus("able");
+		}else {
+			user.setRole("user_role");
+			user.setStatus("able");
+		}
 
 		if (userService.insertUser(user)) {
 			System.out.println("Register OK");

@@ -48,6 +48,8 @@ public class UserDao {
 						user.setReg_date(rs.getTimestamp("reg_date"));
 						user.setAccess_date(rs.getTimestamp("access_date"));
 						user.setUpdate_date(rs.getTimestamp("update_date"));
+						user.setRole(rs.getNString("role"));
+						user.setStatus(rs.getString("status"));
 
 						return user;
 
@@ -76,6 +78,8 @@ public class UserDao {
 						user.setReg_date(rs.getTimestamp("reg_date"));
 						user.setAccess_date(rs.getTimestamp("access_date"));
 						user.setUpdate_date(rs.getTimestamp("update_date"));
+						user.setRole(rs.getNString("role"));
+						user.setStatus(rs.getString("status"));
 
 						return user;
 
@@ -89,12 +93,13 @@ public class UserDao {
 		String password = user.getPassword();
 		String email = user.getEmail();
 		String salt = user.getSalt();
-//		Timestamp reg = user.getTimestamp();
+		String role = user.getRole();
+		String status = user.getStatus();
 
-		String sqlStatement = "insert into user (name, userId, password, email, salt) values(?,?,?,?,?)";
+		String sqlStatement = "insert into user (name, userId, password, email, salt, role, status) values(?,?,?,?,?,?,?)";
 
 		return (jdbcTemplate.update(sqlStatement,
-				new Object[] { name, userId, password, email, salt}) == 1);
+				new Object[] { name, userId, password, email, salt, role, status}) == 1);
 	}
 
 	public List<User> getAllUsers() {
@@ -109,12 +114,14 @@ public class UserDao {
 
 				user.setName(rs.getString("name"));
 				user.setUserId(rs.getString("userId"));
-				user.setPassword(rs.getString("password"));
+				//user.setPassword(rs.getString("password"));
 				user.setEmail(rs.getString("email"));
-				user.setSalt(rs.getString("salt"));
-				user.setReg_date(rs.getTimestamp("reg_date"));
-				user.setAccess_date(rs.getTimestamp("access_date"));
-				user.setUpdate_date(rs.getTimestamp("update_date"));
+				//user.setSalt(rs.getString("salt"));
+				//user.setReg_date(rs.getTimestamp("reg_date"));
+				//user.setAccess_date(rs.getTimestamp("access_date"));
+				//user.setUpdate_date(rs.getTimestamp("update_date"));
+				//user.setRole(rs.getNString("role"));
+				//user.setStatus(rs.getString("status"));
 
 				return user;
 			}

@@ -9,6 +9,8 @@ public class User extends TimeStampClass{
 	private String password;
 	private String email;
 	private String salt;
+	private String role;
+	private String status;
 	
 	
 	public String getUserId() {
@@ -41,7 +43,18 @@ public class User extends TimeStampClass{
 	public void setSalt(String salt) {
 		this.salt = salt;
 	}
-	
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	
 	
 	

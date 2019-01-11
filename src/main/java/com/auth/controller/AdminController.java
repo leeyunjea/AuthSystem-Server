@@ -23,7 +23,7 @@ public class AdminController {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping(value="/getAllUsers", method = RequestMethod.GET)
+	@RequestMapping(value="/listUsers", method = RequestMethod.POST)
 	@CrossOrigin
 	public ResponseEntity<List<User>> getAllUsers() {
 		System.out.println("getAllUsers");
