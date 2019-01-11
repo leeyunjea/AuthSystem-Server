@@ -62,7 +62,7 @@ public class RegisterController {
 			System.out.println("Register OK");
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} else {
-			return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
+			return new ResponseEntity<Void>(HttpStatus.FORBIDDEN); //
 
 		}
 	}

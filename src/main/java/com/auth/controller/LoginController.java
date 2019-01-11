@@ -59,8 +59,8 @@ public class LoginController {
 			String hashPassword = SHA256.getInstance().encodeSHA256(myUser.getSalt() + user.getPassword());
 			if(hashPassword.equals(myUser.getPassword())) {
 				System.out.println("Login 2222");
-				// 토큰 생성해서 -> crypto로 바꾸기 
-				String token = Base64.encodeBase64String(((SHA256.getInstance().encodeSHA256(myUser.getName())).getBytes("UTF-8")));
+				// 토큰 생성해서
+				String token = (Base64.encodeBase64String(((SHA256.getInstance().encodeSHA256(myUser.getName())).getBytes("UTF-8")))).replaceAll("=", "");
 				System.out.println("token = " + token);
 				
 				// redis에 토큰 보내기 
@@ -72,8 +72,8 @@ public class LoginController {
 				HashMap<String, String> map = new HashMap<String, String>();
 				map.put("userId", myUser.getUserId());
 				map.put("ip", Http.getIp());
-				map.put("timeStamp", time);
-				hashOperations.putAll(key, map);
+//				map.put("timeStamp", time);
+				hashOperations.putAll(key, map); //연구 
 				
 				// test -> 조회해보기 
 				String userId = hashOperations.get(token, "userId");
@@ -84,7 +84,12 @@ public class LoginController {
 				
 				// 토큰을 client에 보내기 
 				
-				return new ResponseEntity<User>(myUser, HttpStatus.OK);
+				myUser.setPassword(token); //password 대신 token을 보냄 
+				
+				HttpHeaders headers = new HttpHeaders();
+				headers.add("auth_token", token);
+				
+				return new ResponseEntity<User>(myUser, headers, HttpStatus.OK);
 			}else {
 				return new ResponseEntity<User>(HttpStatus.FORBIDDEN);
 			}
