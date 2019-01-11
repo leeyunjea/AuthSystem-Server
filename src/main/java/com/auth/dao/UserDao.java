@@ -45,7 +45,9 @@ public class UserDao {
 						user.setUserId(rs.getString("userId"));
 						user.setEmail(rs.getString("email"));
 						user.setSalt(rs.getString("salt"));
-						user.setTimestamp(rs.getTimestamp("timestamp"));
+						user.setReg_date(rs.getTimestamp("reg_date"));
+						user.setAccess_date(rs.getTimestamp("access_date"));
+						user.setUpdate_date(rs.getTimestamp("update_date"));
 
 						return user;
 
@@ -71,7 +73,9 @@ public class UserDao {
 						user.setUserId(rs.getString("userId"));
 						user.setEmail(rs.getString("email"));
 						user.setSalt(rs.getString("salt"));
-						user.setTimestamp(rs.getTimestamp("timestamp"));
+						user.setReg_date(rs.getTimestamp("reg_date"));
+						user.setAccess_date(rs.getTimestamp("access_date"));
+						user.setUpdate_date(rs.getTimestamp("update_date"));
 
 						return user;
 
@@ -85,12 +89,12 @@ public class UserDao {
 		String password = user.getPassword();
 		String email = user.getEmail();
 		String salt = user.getSalt();
-		Timestamp timestamp = user.getTimestamp();
+//		Timestamp reg = user.getTimestamp();
 
-		String sqlStatement = "insert into user (name, userId, password, email, salt, timestamp) values(?,?,?,?,?,?)";
+		String sqlStatement = "insert into user (name, userId, password, email, salt) values(?,?,?,?,?)";
 
 		return (jdbcTemplate.update(sqlStatement,
-				new Object[] { name, userId, password, email, salt, timestamp }) == 1);
+				new Object[] { name, userId, password, email, salt}) == 1);
 	}
 
 	public List<User> getAllUsers() {
@@ -108,7 +112,9 @@ public class UserDao {
 				user.setPassword(rs.getString("password"));
 				user.setEmail(rs.getString("email"));
 				user.setSalt(rs.getString("salt"));
-				user.setTimestamp(rs.getTimestamp("timestamp"));
+				user.setReg_date(rs.getTimestamp("reg_date"));
+				user.setAccess_date(rs.getTimestamp("access_date"));
+				user.setUpdate_date(rs.getTimestamp("update_date"));
 
 				return user;
 			}
@@ -121,5 +127,12 @@ public class UserDao {
 		String sqlStatement = "delete from user where userId = ?";
 
 		return (jdbcTemplate.update(sqlStatement, new Object[] { userId }) == 1);
+	}
+
+	public boolean updateAccess_date(User user) {
+		
+		String sqlStatement = "update user set access_date = now() where userId = ?";
+
+		return (jdbcTemplate.update(sqlStatement, new Object[] { user.getUserId() }) == 1);
 	}
 }

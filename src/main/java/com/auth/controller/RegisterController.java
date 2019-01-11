@@ -56,7 +56,7 @@ public class RegisterController {
 		
 		user.setSalt(salt);
 		user.setPassword(hashPassword);
-		user.setTimestamp(new Timestamp(System.currentTimeMillis()));
+		//user.setReg_date(new Timestamp(System.currentTimeMillis()));
 
 		if (userService.insertUser(user)) {
 			System.out.println("Register OK");

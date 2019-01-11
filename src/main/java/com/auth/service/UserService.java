@@ -34,4 +34,9 @@ public class UserService {
 		return userDao.deleteUser(userId);
 	}
 
+	public boolean updateAccess_date(User user) {
+		return userDao.updateAccess_date(user);
+	}
+
+
 }

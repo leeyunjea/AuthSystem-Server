@@ -7,6 +7,7 @@ import java.util.Base64.Encoder;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -39,11 +40,11 @@ public class LoginController {
 	@Autowired
 	private UserService userService;
 	
-	@Resource(name="redisTemplate") 
-	private ValueOperations<String, String> valueOperations;
 	
 	@Resource(name="redisTemplate")
 	private HashOperations<String, String, String> hashOperations;
+	
+//	private String expireKey = "yunjae";
 
 
 	// --- Login a User
@@ -55,12 +56,17 @@ public class LoginController {
 		System.out.println("Login 1111");
 		try {
 			User myUser = userService.getUser(user.getUserId());
+			if(!userService.updateAccess_date(user)) {
+				return new ResponseEntity<User>(HttpStatus.FORBIDDEN);
+			}
+			
 			
 			String hashPassword = SHA256.getInstance().encodeSHA256(myUser.getSalt() + user.getPassword());
 			if(hashPassword.equals(myUser.getPassword())) {
 				System.out.println("Login 2222");
 				// 토큰 생성해서
-				String token = (Base64.encodeBase64String(((SHA256.getInstance().encodeSHA256(myUser.getName())).getBytes("UTF-8")))).replaceAll("=", "");
+				String token = Base64.encodeBase64String(((SHA256.getInstance().encodeSHA256(myUser.getName())).getBytes("UTF-8")));
+				token = token.replace("=", "").replace('/', '_').replace('+', '-');
 				System.out.println("token = " + token);
 				
 				// redis에 토큰 보내기 
@@ -72,8 +78,9 @@ public class LoginController {
 				HashMap<String, String> map = new HashMap<String, String>();
 				map.put("userId", myUser.getUserId());
 				map.put("ip", Http.getIp());
-//				map.put("timeStamp", time);
+				map.put("timeStamp", time);
 				hashOperations.putAll(key, map); //연구 
+				hashOperations.getOperations().expire(token, 5L, TimeUnit.MINUTES);
 				
 				// test -> 조회해보기 
 				String userId = hashOperations.get(token, "userId");
